@@ -102,6 +102,136 @@
 
 
 
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time datetime="2025-05-12T11:16:16.000Z" title="2025. 5. 12. 오후 8:16:16">2025-05-12</time>&nbsp;게시 됨</span><span class="level-item"><time datetime="2026-01-10T11:19:35.042Z" title="2026. 1. 10. 오후 8:19:35">2026-01-10</time>&nbsp;업데이트 됨</span><span class="level-item"><a class="link-muted" href="/categories/Android/">Android</a></span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2025/05/12/037-why-you-should-use-flow-instead-of-livedata/">[Android/Flow] LiveData가 아닌 Flow를 사용해야 하는 이유</a></h1><div class="content"><p><img src="/2025/05/12/037-why-you-should-use-flow-instead-of-livedata/037-livedata-and-flow.png" alt="image.png"></p>
+<p>예전에는,</p>
+<ul>
+<li>LiveData는 생명주기에 종속적이었고, 메인 스레드에서 실행되었기 때문에 Repository에서 사용하기엔 알맞지 않았다.</li>
+<li>반면 Flow는 생명주기를 인식할 수 없었으나 데이터 스트림을 관리하는 객체로서 확장 함수가 잘 구성되어있었고, 코틀린 코루틴 라이브러리의 일부이기 때문에 Repository에서 사용하더라도 클린 아키텍처에 반하지 않았다.<ul>
+<li>Flow는 coroutine 라이브러리에 포함되어있기 때문에 Repository에서 사용 시 의존성을 추가하지 않아도 된다.  <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> kotlinx.coroutines.flow.MutableSharedFlow</span><br><span class="line"><span class="keyword">import</span> kotlinx.coroutines.flow.asSharedFlow</span><br></pre></td></tr></table></figure></li>
+</ul>
+  또한,<blockquote>
+<p>Flow는 Cold Stream 방식이다. 연속해서 계속 들어오는 데이터를 처리할 수 없고, collect 되었을 때만 생성되고 값을 반환한다. 만약 하나의 Flow Builder에 대해 다수의 collector가 있다면 collector 하나마다 하나씩 데이터를 호출하기 대문에 비용이 비싼 DB 접근, 서버 통신 등을 수행한다면 여러 번 리소스 요청을 하게될 수 있다.</p>
+</blockquote>
+</li>
+</ul>
+<p>→ LiveData는 ViewModel, Flow는 Repository에서 사용하는 상호보완적 관계였다.</p>
+<ul>
+<li>그런데 repeatOnLifecycle 블록에서 데이터를 collect함으로써 생명주기를 인식할 수 있는 StateFlow/SharedFlow가 등장했다.<ul>
+<li>LiveData와 Flow는 ViewModel단에서는 상호대체 가능해졌다.</li>
+</ul>
+  → 하지만 Flow가 사용성이 더 높기 때문에(ViewModel과 Repository 두 영역에서 모두 사용할 수 있게 되었기 때문에) LiveData보다는 Flow를 더 선호하게 되었다.</li>
+<li>StateFlow<blockquote>
+<p>StateFlow는 현재 상태와 새로운 상태 업데이트를 수집기에 내보내는 관찰 가능한 상태 홀더 흐름이다. value 속성을 통해서도 현재 상태 값을 읽을 수 있다. 상태를 업데이트하고 Flow에 전송하려면 MutableStateFlow 클래스의 value 속성에 새 값을 할당한다.</p>
+</blockquote>
+<blockquote>
+<p>StateFlow는 Hot Flow이다. Flow에서 수집해도 생산자 코드가 트리거되지 않는다.</p>
+</blockquote>
+  즉, StateFlow는 Hot 스트림 방식으로, 소비자의 collect 요청이 없어도 바로 값을 내보내고, 데이터가 업데이트 될 떄마다 데이터를 발행한다.</li>
+</ul>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8868044834754772" crossorigin="anonymous"></script>
+<p><ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8868044834754772" data-ad-slot="1292114373"></ins></p>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+
+
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time datetime="2025-03-20T11:21:46.000Z" title="2025. 3. 20. 오후 8:21:46">2025-03-20</time>&nbsp;게시 됨</span><span class="level-item"><time datetime="2026-01-10T11:29:32.351Z" title="2026. 1. 10. 오후 8:29:32">2026-01-10</time>&nbsp;업데이트 됨</span><span class="level-item"><a class="link-muted" href="/categories/Android/">Android</a></span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2025/03/20/038-about-cookie/">[Android] 쿠키에 관하여</a></h1><div class="content"><h1 id="쿠키"><a href="#쿠키" class="headerlink" title="쿠키"></a><strong>쿠키</strong></h1><p>여기서는 앱에 내려주는 쿠키형식에 관하여 이야기한다.</p>
+<ul>
+<li>[<a target="_blank" rel="external nofollow noopener noreferrer" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Set-Cookie">MDN</a>] Set-Cookie</li>
+</ul>
+<h2 id="1-세션-쿠키"><a href="#1-세션-쿠키" class="headerlink" title="1. 세션 쿠키"></a>1. 세션 쿠키</h2><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: sessionId=38afes7a8</span><br></pre></td></tr></table></figure>
+
+<p>가장 간단한 형재는 key=value 형태로 되어있다.</p>
+<p><a target="_blank" rel="external nofollow noopener noreferrer" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Set-Cookie#expiresdate">Expires 속성</a> 설명에 나와있듯이,</p>
+<blockquote>
+<p>If unspecified, the cookie becomes a <strong>session cookie</strong>. A session finishes when the client shuts down, after which the session cookie is removed.</p>
+</blockquote>
+<p>Expires 속성값이 지정되지 않으면 세션 쿠키이고, Chrome Inspector의 쿠키 리스트 중 expires 값에 “session”이라고 나타난다.</p>
+<h2 id="2-지속-persistent-쿠키"><a href="#2-지속-persistent-쿠키" class="headerlink" title="2. 지속(persistent) 쿠키"></a>2. 지속(persistent) 쿠키</h2><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: id=a3fWa; Expires=Wed, <span class="number">21</span> Oct <span class="number">2015</span> <span class="number">07</span>:<span class="number">28</span>:<span class="number">00</span> GMT</span><br></pre></td></tr></table></figure>
+
+<p>지속 쿠키는 Expires 값이 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Date">HTTP Date</a> 형태로 지정된 값이다. 이는 GMT(그리니치 평균시)를 따르며 런던을 기점으로 하는 시각이고, 로컬 시각이 아니다.</p>
+<p>⚠️ 한국의 경우 GMT+09:00으로 표현하나, Expires 속성값 마지막에 “GMT” 대신 “GMT+09:00”를 쓰더라도 “+09:00”는 무시되기 때문에 날짜는 항상 “GMT” 시간을 나타내는 점에 주의해야 한다.</p>
+<p>이렇게 Expires 속성값이 지정된 쿠키는 지정된 만료 일자까지 살아있는다.</p>
+<h2 id="3-안드로이드-웹뷰에도-세션-쿠키와-지속-쿠키가-나뉘어져서-보관되는가"><a href="#3-안드로이드-웹뷰에도-세션-쿠키와-지속-쿠키가-나뉘어져서-보관되는가" class="headerlink" title="3. 안드로이드 웹뷰에도 세션 쿠키와 지속 쿠키가 나뉘어져서 보관되는가?"></a>3. 안드로이드 웹뷰에도 세션 쿠키와 지속 쿠키가 나뉘어져서 보관되는가?</h2><p>결론만 말하면, 그렇다.</p>
+<p>이는 CookieManager의 removeSessionCookies()와 removeAllCookies() 메소드로 확인할 수 있다.</p>
+<ol>
+<li>우선 expires 속성값이 내려오는 “test” 쿠키가 있다고 하자. <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: test=<span class="number">1</span>; Expires=Thu, <span class="number">20</span> Mar <span class="number">2025</span> <span class="number">11</span>:<span class="number">13</span>:<span class="number">47</span> GMT+09:<span class="number">00</span>; Domain=.megastudy.net; Path=/;</span><br></pre></td></tr></table></figure>
+</li>
+<li>이를 앱에서 받아(받는 방법은 아래의 [okhttp3.CookieJar] 항목을 참조) cookieManager를 이용해 setCookie한다.</li>
+<li>removeSessionCookies()와 removeAllCookies()를 각각 수행하고 쿠키가 삭제되는지 확인한다.</li>
+</ol>
+<p>그 결과는 다음과 같다.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>expires 속성 없음</th>
+<th>expires 속성 있음</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>removeSessionCookies</td>
+<td>삭제됨</td>
+<td>삭제안됨</td>
+</tr>
+<tr>
+<td>removeAllCookies</td>
+<td>삭제됨</td>
+<td>삭제됨</td>
+</tr>
+</tbody></table>
+<p>여기서 removeSessionCookie로 삭제되지 않는 값, 즉 expires 속성이 있는 쿠키값은 지속 쿠키로 간주할 수 있겠다.</p>
+<p>CookieManager의 getCookie를 통해서는 쿠키의 이름과 값만 내려온다. 따라서 CookieManager를 통해 해당 쿠키의 만료일자 또는 만료여부를 판단할 수 있는 deprecated되지 않은 메소드는 없다.(CookieManager#removeExpiredCookie()는 deprecated되었다.) 그러나 앱 내부적으로 쿠키DB에 저장은 되고 있음을 inspector의 [Application] 탭 &gt; 사이드바의 [Storage] &gt; [Cookies] &gt; [해당 도메인]으로 접근하여 expires 값이 세팅되어있음을 확인할 수 있다.</p>
+<p><img src="/2025/03/20/038-about-cookie/038-01.png"></p>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8868044834754772" crossorigin="anonymous"></script>
+<p><ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8868044834754772" data-ad-slot="1292114373"></ins></p>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+
+
+
+<h1 id="okhttp3-CookieJar"><a href="#okhttp3-CookieJar" class="headerlink" title="okhttp3.CookieJar"></a><strong>okhttp3.CookieJar</strong></h1><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> cookieManager = CookieManager.getInstance()</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> myCookieJar = <span class="keyword">object</span> : CookieJar &#123;</span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">loadForRequest</span><span class="params">(url: <span class="type">HttpUrl</span>)</span></span>: MutableList&lt;Cookie&gt; &#123;</span><br><span class="line">    <span class="keyword">val</span> cookies = mutableListOf&lt;Cookie&gt;()</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 여기서 앱에서 가지고 있는 쿠키를 웹으로 보낼 수 있다.</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> cookies</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">saveFromResponse</span><span class="params">(url: <span class="type">HttpUrl</span>, cookies: <span class="type">MutableList</span>&lt;<span class="type">Cookie</span>&gt;)</span></span> &#123;</span><br><span class="line">    <span class="comment">// 여기서 파라미터를 통해 받아온 cookies 값은 웹에서 세팅된 쿠키값이며</span></span><br><span class="line">    <span class="comment">// 이를 안드로이드에 setCookie 해주어야 한다.</span></span><br><span class="line">    </span><br><span class="line">    cookies.forEachIndexed &#123; i, cookie -&gt;</span><br><span class="line">      cookieManager.setCookie(url.toString(), cookie.toString())</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>CookieJar은 loadForRequest와 saveFromResponse 두 개의 함수를 구현하도록 되어 있다.</p>
+<ul>
+<li>loadForRequest: HTTP 요청을 보내 기 전에 요청에 사용할 쿠키를 반환한다.</li>
+<li>saveFromResponse: HTTP 응답으로부터 받은 쿠키를 저장소에 저장한다.</li>
+</ul>
+<p>따라서 순서로 따지면 loadForRequest 후에 saveFromReponse가 호출된다.</p>
+<p>이를 적용하는 코드는 다음과 같다.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> clientBuilder = OkHttpClient.Builder().apply &#123;</span><br><span class="line">  connectTimeout(Const.TIMEOUT, TimeUnit.SECONDS)</span><br><span class="line">  writeTimeout(Const.TIMEOUT, TimeUnit.SECONDS)</span><br><span class="line">  readTimeout(Const.TIMEOUT, TimeUnit.SECONDS)</span><br><span class="line">&#125;</span><br><span class="line">.cookieJar(myCookieJar)</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="Web-Attribute-Expires"><a href="#Web-Attribute-Expires" class="headerlink" title="[Web/Attribute] Expires"></a><strong>[Web/Attribute] Expires</strong></h1><p>Expires 속성을 가진 지속 쿠키를 웹으로부터 받아온 경우(CookieJar의 saveFromResponse로 확인) 이 만료 기간이 잘 작동하는지 확인하고자 하였다.</p>
+<p>우선 아래와 같이 test 라는 이름의 쿠키를 추가한다.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> time = SimpleDateFormat(<span class="string">&quot;EEE, dd MMM yyyy HH:mm:ss z&quot;</span>, Locale.US)</span><br><span class="line">time.timeZone = TimeZone.getTimeZone(<span class="string">&quot;GMT&quot;</span>)</span><br><span class="line"><span class="keyword">val</span> expiryDate = time.format(</span><br><span class="line">    Date(System.currentTimeMillis() + <span class="number">60</span> * <span class="number">1000</span>)</span><br><span class="line">)</span><br><span class="line">cookieManager.setCookie(</span><br><span class="line">  url.toString(),</span><br><span class="line">  <span class="string">&quot;test=1; Expires=<span class="variable">$expiryDate</span>;Domain=.megastudy.net; Path=/;&quot;</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">// &quot;test=1; Expires=Thu, 20 Mar 2025 11:13:47 GMT+09:00;Domain=.megastudy.net; Path=/;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>Expires 속성값은 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Date">HTTP Date 형식</a>으로 되어, GMT(그리니치 표준시)를 따른다. 이를 위해 타임존을 설정하면 로컬(한국)의 시간보다 9시간차이가 나는 값을 얻을 수 있다. 즉 아래 두 값은 같은 시각을 나타낸다고 보면 된다.</p>
+<ol>
+<li>Thu, 20 Mar 2025 15:00:00 GMT+09:00</li>
+<li>Thu, 20 Mar 2025 06:00:00 GMT</li>
+</ol>
+<p>그리고 Expires 속성값은 1번을 넣어도 2번으로 인식하는 게 아니기 때문에 반드시 로컬 시간을 보정해주어야 하며 이를 위해 timeZone을 <code>TimeZone.getTimeZone(&quot;GMT&quot;)</code>로 설정한다.</p>
+<p><img src="/2025/03/20/038-about-cookie/038-02.png" alt="chrome inspector"></p>
+<p>그리고 해당 “test” 쿠키는 GMT 값에 따라 만료일이 경과하면 자동으로 사라지는 것을 inspector를 통해 확인할 수 있다.</p>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8868044834754772" crossorigin="anonymous"></script>
+<p><ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8868044834754772" data-ad-slot="1292114373"></ins></p>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+
+
 </div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time datetime="2024-03-22T12:22:31.000Z" title="2024. 3. 22. 오후 9:22:31">2024-03-22</time>&nbsp;게시 됨</span><span class="level-item"><time datetime="2024-03-22T12:26:10.000Z" title="2024. 3. 22. 오후 9:26:10">2024-03-22</time>&nbsp;업데이트 됨</span><span class="level-item"><a class="link-muted" href="/categories/Translation/">Translation</a></span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2024/03/22/030-kotlin-coroutines-deep-dive-02/">[번역: Kotlin Coroutines: Deep Dive] (2) 코틀린 코루틴에서 일시 정지 작업을 하는 방법</a></h1><div class="content"><blockquote>
 <p>이 포스팅은 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://kt.academy/book/coroutines">Kotlin Coroutines: Deep Dive</a>의 글을 번역한 것입니다. 오역, 많은 의역, 생략이 있으니 감안하여 읽어주십시오.</p>
 </blockquote>
@@ -230,190 +360,7 @@
 
 
 <p>-</p>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time datetime="2023-11-18T18:04:29.000Z" title="2023. 11. 19. 오전 3:04:29">2023-11-19</time>&nbsp;게시 됨</span><span class="level-item"><time datetime="2024-03-22T12:25:46.000Z" title="2024. 3. 22. 오후 9:25:46">2024-03-22</time>&nbsp;업데이트 됨</span><span class="level-item"><a class="link-muted" href="/categories/Translation/">Translation</a></span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2023/11/19/028-kotlin-coroutines-deep-dive-01/">[번역: Kotlin Coroutines: Deep Dive] (1) Kotlin Coroutines를 사용하는 이유</a></h1><div class="content"><blockquote>
-<p>이 포스팅은 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://kt.academy/book/coroutines">Kotlin Coroutines: Deep Dive</a>의 글을 번역한 것입니다. 오역, 많은 의역, 생략이 있으니 감안하여 읽어주십시오.</p>
-</blockquote>
-<p>우리가 Kotlin Coroutines을 배우는 이유가 무엇인가? RxJava, Reactor과 같이 이미 잘 만들어진 JVM 라이브러리가 있는데도 말이다. 더욱이 자바는 멀티스레딩을 지원한다. 즉 이미 비동기를 구현하기 위한 다양한 방법이 있다.</p>
-<p>Kotlin Coroutines는 그것보다도 더 많은 것을 제공한다. 그 중 하나는 멀티플랫폼을 제공한다는 것이다. 즉슨 코틀린 플랫폼 사이에서 코루틴을 사용할 수 있음을 의미한다.</p>
-<p>연습해보자. 코루틴과 다른 방법들 사이에 얼마나 차이가 있는지 보라. 아래에서는 안드로이드와 백엔드 비즈니스 로직의 두 가지 전형적인 예시를 보여줄 것이다.</p>
-<h2 id="안드로이드-와-다른-프론트엔드-플랫폼-에서-사용하는-코루틴"><a href="#안드로이드-와-다른-프론트엔드-플랫폼-에서-사용하는-코루틴" class="headerlink" title="안드로이드(와 다른 프론트엔드 플랫폼)에서 사용하는 코루틴"></a>안드로이드(와 다른 프론트엔드 플랫폼)에서 사용하는 코루틴</h2><p>앱 로직을 수행할 때 가장 자주 진행되는 과정은 다음과 같다.</p>
-<ul>
-<li>API, 데이터베이스 등과 같은 소스의 데이터 가져오기</li>
-<li>데이터 가공하기</li>
-<li>그 데이터로 뷰에 보여주는 등의 작업 수행하기</li>
-</ul>
-<p>더 잘 이해하기 위해 앱을 개발하는 중이라고 가정해보자. API를 통해 뉴스 “정보를 받아와서” 이를 “정렬”하고, “화면에 보여주는” 서비스를 만들 것이다. 원하는 기능을 그대로 넣은 게 다음과 같다.</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="keyword">val</span> news = getNewsFromApi()</span><br><span class="line">  <span class="keyword">val</span> sortedNew = news.sortedByDescending &#123; it.publishedAt &#125;</span><br><span class="line">  view.showNews(sortedNew)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>슬프지만 이대로 끝나선 안 된다. 안드로이드에서 각 애플리케이션은 뷰를 업데이트하는 데에 단 하나의 스레드를 가지고 사용한다. 이 스레드(Main Thread)는 매우 중요하여 절대 block(차단)되어서는 안 된다. 그런데 위 코드는 이 점을 만족시키지 못한다. 만약 메인 스레드에서 실행되었다면 getNewsFromApi 는 이 스레드를 block할 것이고, 앱은 죽을 것이다. 만약 다른 스레드였다면 앱은 showNews가 호출될 때 죽을 것이다. 이 작업은 메인 스레드에서 수행되어야 하는 작업이기 때문이다.</p>
-<h2 id="스레드-변경-switching"><a href="#스레드-변경-switching" class="headerlink" title="스레드 변경(switching)"></a>스레드 변경(switching)</h2><p>이 문제는 스레드를 변경함으로써 해결할 수 있다. 우선 block할 수 있는 스레드에서 메인 스레드로 변경하자.</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">()</span></span> &#123;</span><br><span class="line">  thread &#123;</span><br><span class="line">    <span class="keyword">val</span> news = getNewsFromApi()</span><br><span class="line">    <span class="keyword">val</span> sortedNew = news.sortedByDescending &#123; it.publishedAt &#125;</span><br><span class="line">    runOnUiThread &#123;</span><br><span class="line">      view.showNews(sortedNew)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>이러한 스레드 변경은 어떤 앱에서는 여전히 사용하는 방식이긴하다. 그러나 이 방식은 몇가지 문제를 안고 있다.</p>
-<ul>
-<li>이 스레드들을 cancel할 수 있는 방도가 없어서 종종 메모리 누수(memory leak) 상태에 직면한다.</li>
-<li>스레드 비용이 많이 든다.</li>
-<li>빈번한 스레드 변경은 혼란스럽고 관리를 어렵게 만든다.</li>
-<li>이 코드는 불필요하게 크고 복잡하다.</li>
-</ul>
-<p>당신이 뷰를 연 후 빠르게 닫는 걸 상상해보라. 열 때 몇 개의 스레드들이 시작하며 데이터를 처리한다. 뷰를 닫았음에도 존재하지 않는 뷰를 업데이트하기 위해 이 작업을 cancel하지 않고 계속 진행하게 된다. 불필요하다는 것이다.</p>
-<p>이러한 문제에 대해 생각해보며 더 좋은 해결책을 보도록 하자.</p>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8868044834754772" crossorigin="anonymous"></script>
-<p><ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8868044834754772" data-ad-slot="1292114373"></ins></p>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-
-<h2 id="콜백-Callbacks"><a href="#콜백-Callbacks" class="headerlink" title="콜백(Callbacks)"></a>콜백(Callbacks)</h2><p>콜백은 이 문제를 해결하는 방법 중 하나이다. 이 방식은 기능이 non-blocking하게 만든다. 그러나 콜백 함수가 끝나야만이 시작할 수 있는 작업을 수행할 때만 적용할 수 있다. 코드에 적용하면 이렇다.</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">()</span></span> &#123;</span><br><span class="line">  getNewsFromApi &#123; news -&gt;</span><br><span class="line">    <span class="keyword">val</span> sortedNew = news.sortedByDescending &#123; it.publishedAt &#125;</span><br><span class="line">    view.showNews(sortedNew)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>여기서 작업을 cancel 할 수 없음에 주목하라. 취소할 수 있는 콜백 함수를 만들 수도 있을 것이다. 그러나 쉽지 않다. cancel을 위해 각 콜백 함수를 커스텀해야 할 뿐만 아니라 cancel을 할 가능성이 있는 모든 객체를 별도로 수집해야 한다.</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">()</span></span> &#123;</span><br><span class="line">  startedCallbacks += getNewsFromApi &#123; news -&gt;</span><br><span class="line">    <span class="keyword">val</span> sortedNew = news.sortedByDescending &#123; it.publishedAt &#125;</span><br><span class="line">    view.showNews(sortedNew)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>이러한 콜백 구조는 단점이 있다. 이걸 이해하기 위해 더 복잡한 예시를 보자. 세 개의 엔드포인트로부터 데이터를 가져오는 경우이다.</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">showNews</span><span class="params">()</span></span> &#123;</span><br><span class="line">  getConfigFromApi &#123; config -&gt;</span><br><span class="line">    getNewsFromApi(config) &#123; news -&gt;</span><br><span class="line">      getUserFromApi &#123; user -&gt;</span><br><span class="line">        view.showNews(user, news)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>이 코드는 아래와 같은 이유로 완벽과는 거리가 멀다.</p>
-<ul>
-<li>news와 user 데이터는 사실 동시에 받아와도 된다. 그런데 지금 콜백 구조로는 그럴 수 없다.</li>
-<li>전에 말한대로, 다른 더 많은 데이터를 불러오려고 할 때 cancel할 필요가 있다.</li>
-<li>요구하는 게 점점 많아질수록 이 코드는 읽기 어려워질 것이다. 그러한 상황을 콜백 지옥(callback hell)이라고 부른다.</li>
-<li>콜백을 사용할 때 작업의 순서를 제어하기 힘들다. 인디케이터를 다음과 같이 사용해도 진행도가 제대로 나타나지 않는다.  <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">()</span></span> &#123;</span><br><span class="line">  showProgressBar()</span><br><span class="line">  showNews &#123;</span><br><span class="line">    hideProgressBar()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>이게 콜백 구조가 어떤 면에서는 완벽하지 않은 이유이다. 다른 접근방식으로 RxJava를 사용한 예를 보자.</p>
-<h2 id="RxJava와-그밖의-reactive-streams"><a href="#RxJava와-그밖의-reactive-streams" class="headerlink" title="RxJava와 그밖의 reactive streams"></a>RxJava와 그밖의 reactive streams</h2><p>Java에서 유명한 이 대체방식은 reactive streams(또는 Reactive Extensions)를 사용한다. 즉, RxJava 또는 successor Reactor를 말한다. 이 방식으로 말할 것 같으면, 모든 동작은 시작하여(started) 진행된(processed) 관찰되어지는(observed) 데이터 스트림(일련의 작업) 내에서 일어난다. 그래서 종종 앱에서는 동시에 진행되곤 한다.</p>
-<p>다음 코드가 RxJava를 사용한 문제 해결 방식이다.</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">()</span></span> &#123;</span><br><span class="line">  disposables += getNewsFromApi()</span><br><span class="line">      .subscribeOn(Schedulers.io())</span><br><span class="line">      .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">      .map &#123; news -&gt;</span><br><span class="line">        news.sortedByDescending &#123; it. publishedAt &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      .subscribe &#123; sortedNews -&gt;</span><br><span class="line">        view.showNews(sortedNews)</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>위 예제에서 disposables은 사용자가 화면을 벗어났을 때 이 스트림을 cancel하기 위한 요소이다.</p>
-<p>이는 분명 콜백보다 더 괜찮은 해결책이다. 메모리 누수가 없고, 작업 취소(cancel)를 할 수 있으며 스레드를 사용하는 데도 적절하다. 유일한 문제는 복잡하다는 것이다. 만약 맨처음 코드인 “이상적인” 코드와 비교한다면 공통점이 거의 없음을 알 수 있을 것이다.</p>
-<p>subscribeOn, observeOn, map 그리고 subscribe라는 함수들을 모두 알아야지만 코드를 이해할 수 있다. cancelling(cancel할 수 있는 기능)은 분명 필요하다. 함수는 Observable이나 Single 클래스 안에 있는 객체를 반환해야 한다. 실제로 RxJava를 소개할 때 흔히 우리 코드를 아래와 같이 바꾼다.</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">getNewsFromApi</span><span class="params">()</span></span>: Single&lt;List&lt;News&gt;&gt;</span><br></pre></td></tr></table></figure>
-
-<p>두 번째 문제를 생각해보자. 데이터를 화면에 보여주기 전에 세 개의 엔드포인트를 호출해야 한다. 이건 RxJava에서는 사실 풀 수 있는 문제다. 그러나 코드가 지금보다 훨씬 더 복잡해진다.</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">showNews</span><span class="params">()</span></span> &#123;</span><br><span class="line">  disposables += Observable.zip(</span><br><span class="line">          getNewsFromApi()</span><br><span class="line">            .flatMap &#123; getNewFromApi(it) &#125;</span><br><span class="line">            .subscribeOn(Schedulers.io()),</span><br><span class="line">          getUserFromApi()</span><br><span class="line">            .subscribeOn(Schedulers.io())</span><br><span class="line">      ) &#123; news: News, user: User -&gt;</span><br><span class="line">          Pair(news, user)</span><br><span class="line">      &#125;</span><br><span class="line">      .subscribeOn(Schedulers.io())</span><br><span class="line">      .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">      .subscribe &#123; (news, user) -&gt;</span><br><span class="line">        view.showNews((news, user))</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>이 코드는 정말 메모리 누수가 없고, concurrent하다. 그러나 zip, flatMap과 같은 RxJava 함수를 넣어야 하고, Pair로 값을 묶어야 하며, 이 구조를 해제해야 한다. 이 옳은 구현은 정말 복잡하다. 그래서 이번에야말로 코루틴으로 짠 코드를 보도록 하자.</p>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8868044834754772" crossorigin="anonymous"></script>
-<p><ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8868044834754772" data-ad-slot="1292114373"></ins></p>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-
-<h2 id="코틀린-코루틴-사용하기"><a href="#코틀린-코루틴-사용하기" class="headerlink" title="코틀린 코루틴 사용하기"></a>코틀린 코루틴 사용하기</h2><p>코루틴이 소개하는 핵심 기능은 어떤 지점에서 코루틴을 suspend(일시 정지)하고 후에 다시 resume(재시작) 할 수 있다는 것이다. 이 덕분에 메인 스레드에서 코드를 run(실행)하다가 API 데이터를 요청했을 때 suspend 할 수 있다. 코루틴이 suspend 되었을 때 스레드는 block(차단)되지 않고 뷰를 바꾸거나 다른 코루틴을 진행하는 등에 계속 사용할 수 있다. 데이터가 준비되면 코루틴은 메인 스레드를 기다린다. 드문 상황이지만 코루틴 대기열이 있을 수도 있다. 기다리던 스레드를 사용할 수 있게 되면 중지된 지점부터 계속 진행한다.</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">updateNews</span><span class="params">()</span></span> &#123;</span><br><span class="line">  showProgressBar()</span><br><span class="line">  <span class="keyword">val</span> news = getNewsFromApi()</span><br><span class="line">  <span class="keyword">val</span> sortedNews = news.sortedByDescending &#123; it.publishedAt &#125;</span><br><span class="line">  view.showNews(sortedNews)</span><br><span class="line">  hideProgressBar()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">updateProfile</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="keyword">val</span> user = getUserData()</span><br><span class="line">  view.showUser(user)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> scope = CoroutineScope(Dispatchers.Main)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">()</span></span> &#123;</span><br><span class="line">  scope.launch &#123; updateNews() &#125;</span><br><span class="line">  scope.launch &#123; updateProfile() &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2023/11/19/028-kotlin-coroutines-deep-dive-01/028-01.jpg" alt="Kotlin Coroutine Example"></p>
-<p>그림에서 메인 스레드에서 분리된 코루틴으로 실행되는 updateNews와 updateProfile 함수를 보자. 두 함수(또는 코루틴)는 순서가 바뀌어도 된다. 스레드를 block하지 않고 코루틴을 suspend하기 때문이다. updateNews 함수가 네트워크 응답을 기다리고 있을 때 메인 스레드는 updateProfile이 사용한다. 여기서는 사용자 데이터는 이미 캐싱되었기 때문에 getUserData에서 suspend하지 않았다고 가정한다. 그러므로 작업을 완료할 수 있다. 네트워크 응답 시간이 충분하지 않아서 데이터를 받아오는 게 늦어지면 메인 스레드는 그 시간동안 사용되지 않는다(다른 함수가 사용할 수 있다). 데이터를 받으면 메인 스레드를 가져와 getNewsFromApi() 바로 다음 지점부터 시작하여 updateNews를 resume(재개)한다.</p>
-<p>정의에 따르면 코루틴은 suspend와 resume이 가능한 컴포넌트다. JavaScript나 Rust, Python과 같은 언어에서 볼 수 있는 async/await나 generators와 같은 개념도 코루틴을 사용하지만 그 기능은 매우 제한적이다.</p>
-<p>그래서 첫 번째 문제점은 다음 방식으로 해결한다.</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">()</span></span> &#123;</span><br><span class="line">  viewModelScope.launch &#123;</span><br><span class="line">    <span class="keyword">val</span> news = getNewsFromApi()</span><br><span class="line">    <span class="keyword">val</span> sortedNews = news.sortedByDescending &#123; it.publishedAt &#125;</span><br><span class="line">    view.showNews(sortedNews)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>위 코드에서 현재 안드로이드에서 가장 흔한 viewModelScope를 사용했다. 이걸 대신해서 커스텀 scope를 사용할 수도 있다.</p>
-<p>이 코드는 우리가 원하는 것에 거의 가깝다! 이 해결책에서 코드는 메인 스레드에서 run하지만 절대 block 하진 않는다. suspend 기법 덕에 데이터를 기다릴 필요가 있을 때 해당 코루틴을 block 대신 suspend 한다. 코루틴이 일시 정지했을 때 메인 스레드는 진행도를 예쁘게 보여주는 등의 다른 일을 할 수 있다. 그리고 데이터가 준비되면 코루틴은 메인 스레드를 다시 받아 멈췄던 부분부터 다시 시작한다.</p>
-<p>그렇다면 어떻게 세 개의 API를 호출할까? 이 또한 유사한 방식으로 만들 수 있다.</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">showNews</span><span class="params">()</span></span> &#123;</span><br><span class="line">  viewModelScope.launch &#123;</span><br><span class="line">    <span class="keyword">val</span> config = getCondfigFromApi()</span><br><span class="line">    <span class="keyword">val</span> news = getNewsFromApi(config)</span><br><span class="line">    <span class="keyword">val</span> user = getUserFromApi()</span><br><span class="line">    view.showNews(user, news)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>이 해법은 제법 괜찮아보인다. 그러나 최선은 아니다. API 호출들을 하나가 끝나면 다음 호출을 부르듯, 순서대로 진행되고 있다. 그래서 각 작업이 1초 걸린다고 하면, 전체 함수는 2초가 아닌 3초가 걸린다. 여기서 코틀린 코루틴 라이브러리는 async와 같은 기능을 지원한다. 즉 일부 요청으로 다른 코루틴을 즉시 시작하고 (await 함수로)그 결과가 나중에 도착할 때까지 기다리는 데에 사용할 수 있다.</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">showNews</span><span class="params">()</span></span> &#123;</span><br><span class="line">  viewModelScope.launch &#123;</span><br><span class="line">    <span class="keyword">val</span> config = async &#123; getCondfigFromApi() &#125;</span><br><span class="line">    <span class="keyword">val</span> news = async &#123; getNewsFromApi(config.await()) &#125;</span><br><span class="line">    <span class="keyword">val</span> user = async &#123; getUserFromApi() &#125;</span><br><span class="line">    view.showNews(user.await(), news.await())</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>코드는 여전히 단순하고 가독성 있다. 이는 JavaScript나 C#에서 잘 사용되는 async/await 패턴을 이용한다. 효과적이고 메모리 누수도 없다. 단순한데다가 잘 구성되어있기까지 하다.</p>
-<h2 id="다른-예제"><a href="#다른-예제" class="headerlink" title="다른 예제"></a>다른 예제</h2><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 모든 페이지를 동시에 로드하기</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">showAllNews</span><span class="params">()</span></span> &#123;</span><br><span class="line">  viewModelScope.launch &#123;</span><br><span class="line">  	<span class="keyword">val</span> allNews = (<span class="number">0</span> until getNumberOfPages())</span><br><span class="line">  	  .map &#123; page -&gt; async &#123; getNewsFromApi(page) &#125;</span><br><span class="line">  	  .flatMap &#123; it.await() &#125;</span><br><span class="line">  	view.showAllNews(allNews)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 다름 페이지를 차례로 로드하기</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">showPagesFromFirst</span><span class="params">()</span></span> &#123;</span><br><span class="line">  viewModelScope.launch &#123;</span><br><span class="line">  	<span class="keyword">for</span> (page <span class="keyword">in</span> <span class="number">0</span> until getNumberOfPages()) &#123;</span><br><span class="line">  	  <span class="keyword">val</span> news = getNewsFromApi(page)</span><br><span class="line">  	  view.showNextPage(news)</span><br><span class="line">  	&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8868044834754772" crossorigin="anonymous"></script>
-<p><ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8868044834754772" data-ad-slot="1292114373"></ins></p>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-
-
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time datetime="2022-09-27T16:37:54.000Z" title="2022. 9. 28. 오전 1:37:54">2022-09-28</time>&nbsp;게시 됨</span><span class="level-item"><time datetime="2022-10-23T09:35:18.877Z" title="2022. 10. 23. 오후 6:35:18">2022-10-23</time>&nbsp;업데이트 됨</span><span class="level-item"><a class="link-muted" href="/categories/BOOK/">/BOOK</a></span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2022/09/28/027-androids-the-team-that-built-the-android-operating-system/">[후기] 안드로이드 뜻밖의 역사</a></h1><div class="content"><blockquote>
-<p>이 책은 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://read.amazon.com/kp/kshare?asin=B09C6RYHQ4&id=mrj4eo62hvfclbvra5qanqtueq&reshareId=V2N2XP2AM1ZVJH51S5SG&reshareChannel=system">Androids: The Team that Built the Android Operating System</a> 전문을 번역한 책이며, 영문으로는 해당 링크에서 무료로 볼 수 있다.</p>
-</blockquote>
-<ul>
-<li>Read started from 2022.08.26</li>
-<li>출간일: 2022.08.19</li>
-<li>저자: 쳇 하스</li>
-<li>출판사: 인사이트</li>
-</ul>
-<p>-</p>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8868044834754772" crossorigin="anonymous"></script>
-<p><ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8868044834754772" data-ad-slot="1292114373"></ins></p>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-
-<blockquote>
-<p>나는 이 책을 기술적인 세부 내용을 아는 소프트웨어/하드웨어 엔지니어 말고도 누구나 읽기를 바란다._1부 中</p>
-</blockquote>
-<p>책을 읽기 전 팔락팔락 넘기다가 SCSI 단어가 나오길래 비관련 종사자는 읽기 힘들거라고 생각했는데, 책을 처음부터 읽는다면 미리 설명한 사람들이 나와서 알만한 이야기를 한다. 이 책에서 나는,</p>
-<ol>
-<li>안드로이드 1.0을 릴리즈하기 위한 열정</li>
-<li>안드로이드 내부 기능 각각이 탑재된 배경</li>
-<li>안드로이드 OS가 시장에 나오기까지의 과정</li>
-</ol>
-<p>세 가지를 중점적으로 봤기 때문에 이런 부분을 기대한다면 읽기 불편할 것 같진 않다고 생각했다.</p>
-<h3 id="첫-번째-열정"><a href="#첫-번째-열정" class="headerlink" title="첫 번째, 열정."></a><strong>첫 번째, 열정.</strong></h3><p>다 읽고 나면 안드로이드라는 새로운 운영 체제를 위해 함께 토론하고 결정하며 달려온 기분을 맛볼 수 있다.</p>
-<blockquote>
-<p>역사를 공유하고 있다는 확고한 느낌이 있었죠._1장 中</p>
-</blockquote>
-<p>이 책을 읽은 시기가 마침 회사에서 안드로이드 개발자로 일하면서 두 가지를 고민하던 때였다.</p>
-<!-- 내가 여기서 '뭘 하고' 있는 거지? -->
-<p><strong>내가 ‘왜’ 여기 있는 거지?</strong></p>
-<p>물론 안드로이드 개발을 하고 있었으나 나는 내가 좋아해서 고른 이 직무에 관해 의구심이 생겼다.</p>
-<!-- '안드로이드를 계속 하는 게 맞을까?' -->
-<p><strong>‘나는 왜 안드로이드를 좋아했던 거지?’</strong></p>
-<p>지금도 좋아하지 않는 게 아니었다. 그런데 처음 이끌렸던 이유가 기억나지 않았다. 분명히 있을 거라고 생각했고, 나는 지금까지 인생을 회고하면서 그걸 찾아보고자 했다. 그런데 이 책은 표지처럼 안드로이드의 골대를 세우고, 내부 톱니바퀴를 채우고, 외피를 덮는 공정을 밟는다. 그게 뜻밖에도 나에게 도움을 주었다.</p>
-<p>자세한 건 여기에 적지 않겠으나, 첫 직장에서 C#을 했었고, 거기서 마음에 들었던 부분이 안드로이드에 있었다는 걸 이 책에서 안드로이드의 내부를 하나하나 짚어주는 걸 따라가면서 발견해냈던 것이다.</p>
-<p>그런 점에서 나는 이 책을 읽기 잘했다는 마음이 들었고, 끝까지 재미있게 읽을 수 있었다.</p>
-<h3 id="두-번째-배경"><a href="#두-번째-배경" class="headerlink" title="두 번째, 배경."></a><strong>두 번째, 배경.</strong></h3><p>안드로이드의 각 내부기능, 예를 들면 알람, 지도, 웹뷰는 물론이고 선택된 언어, 저장장치 구성, 이미지 렌더링에 관하여 코드로써 다뤄본 적이 있다면 더욱 빠져들 수 있을 것이다.</p>
-<p>참고로, 현재 Android Developer의 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developer.android.com/guide/platform?hl=ko">플랫폼 아키텍처</a>에서는 소프트웨어 스택(흔히 말하길 ‘안드로이드 운영체제 구조’)을 아래와 같이 그림으로 나타내고 있다.</p>
-<p><img src="/2022/09/28/027-androids-the-team-that-built-the-android-operating-system/027-01.png" alt="Android 소프트웨어 스택"></p>
-<p>그러나 이건 런타임이 ART(<a target="_blank" rel="external nofollow noopener noreferrer" href="https://developer.android.com/guide/practices/verifying-apps-art.html?hl=ko">Android 5.0(API 레벨 21) 이상이 실행되는 기기의 기본 런타임</a>)로 바뀐 2022년 버전 구조이고, 이 책에서는 1.0이하를 중점적으로 다루고 있으므로 아래와 같이 런타임에 Dalvik을 사용하는 구조에 가깝다고 볼 수 있겠다.</p>
-<p>현업 종사자라면 두 사진을 비교해보는 것도 소소한 즐거움이 되지 않을까.</p>
-<p><img src="/2022/09/28/027-androids-the-team-that-built-the-android-operating-system/027-02.png" alt="Android 운영체제 구조"></p>
-<p>그림 출처: <a target="_blank" rel="external nofollow noopener noreferrer" href="https://sites.google.com/site/io/anatomy--physiology-of-an-android">Anatomy Physiology of an Android (Google IO 2008)</a></p>
-<blockquote>
-<p>“누군가 그걸 좋아했기 때문이 아니라 플랫폼이 성공하려면 타당했기 때문이고 팀이 거기에 적응한 거예요.”_8장 中</p>
-</blockquote>
-<p>의사결정 과정에 대해 다이앤이 한 말이다. 기능의 세부사항들은 모두 당시에 타당한 기준으로 선별되었고, 구성하였음을 알 수 있다.</p>
-<p>책에서 재미있게 읽고 기억에 남았던 게 몇 가지 있다.</p>
-<ul>
-<li>GPU없이 렌더링되던 시절의 이야기</li>
-<li>초기 운영체제 모델로 오른 액티비티와 main() 함수</li>
-<li>ART 런타임으로 바뀌기 이전의 초기 런타임 형태</li>
-<li>View의 스레드 측면 작동 방식</li>
-</ul>
-<p>포트 5228에 대한 내용도 잠깐 있었고 내용이 정말 알찼다. 안드로이드의 기능이나 구조를 한 번씩 언급해준다. 개인적으로 웹뷰에 대한 이야기가 길게 이어져서 좋았고, 업데이트 중 메모리 확보 및 보안을 신경쓴 부분도 자세하게 나와서 읽는 재미가 있었다.</p>
-<p>1.0 릴리즈까지 타이트한 일정이었으나 결국 제품을 완성하여 최고의 타이밍에 출시한 안드로이드. &lt;세상을 빛낸 Geek&gt;에서는 맥의 화려함을 강조한 모양이나, 나는 &lt;안드로이드 뜻밖의 역사&gt;가 좋다.</p>
-<p>안드로이드가 오픈 소스인 점, 앱스토어에서 사용자를 가리지 않은 점. 모두에게 열려있다는 인상, 그리고 개발자 친화적이라는 생각도 들었다.</p>
-<p>나는 Android가 좋다:)</p>
-<p>다음은 1부에 나오는 에번 밀러의 말을 옮긴 것이다. 이를 마지막으로 후기를 마무리하고자 한다.</p>
-<blockquote>
-<p>“처음부터 필연 같은 건 없었어요.<br>안드로이드가 성공하지 못할 이유는 많았죠.<br>똑같은 일을 다시 이뤄 내고 싶다고 해도 할 수 없을 거예요.<br>뭔가 마법이 벌어진 거죠.”</p>
-</blockquote>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8868044834754772" crossorigin="anonymous"></script>
-<p><ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8868044834754772" data-ad-slot="1292114373"></ins></p>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-<p>-</p>
-</div></article></div><nav class="pagination" role="navigation" aria-label="pagination"><div class="pagination-previous"><a href="/">이전</a></div><div class="pagination-next"><a href="/page/3/">다음</a></div><ul class="pagination-list is-hidden-mobile"><li><a class="pagination-link" href="/">1</a></li><li><a class="pagination-link is-current" href="/page/2/">2</a></li><li><a class="pagination-link" href="/page/3/">3</a></li><li><span class="pagination-ellipsis">&hellip;</span></li><li><a class="pagination-link" href="/page/7/">7</a></li></ul></nav></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><!--!--><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/img/avatar.png" alt="LEEJS"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">LEEJS</p><p class="is-size-6 is-block">Android Dev.</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>South Korea</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">포스트</p><a href="/archives"><p class="title">35</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">카테고리</p><a href="/categories"><p class="title">7</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">태그</p><a href="/tags"><p class="title">0</p></a></div></div></nav><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="external nofollow noopener noreferrer" title="Github" href="https://github.com/dl137584"><i class="fab fa-github"></i></a></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">카테고리</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/ARTICLE/"><span class="level-start"><span class="level-item">/ARTICLE</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/BOOK/"><span class="level-start"><span class="level-item">/BOOK</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Algorithm/"><span class="level-start"><span class="level-item">Algorithm</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Android/"><span class="level-start"><span class="level-item">Android</span></span><span class="level-end"><span class="level-item tag">21</span></span></a></li><li><a class="level is-mobile" href="/categories/Etc/"><span class="level-start"><span class="level-item">Etc</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Kotlin/"><span class="level-start"><span class="level-item">Kotlin</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Translation/"><span class="level-start"><span class="level-item">Translation</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></div></div></div><div class="card widget" data-type="adsense"><div class="card-content"><div class="menu"><h3 class="menu-label">광고</h3><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8868044834754772" data-ad-slot="4130112855" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="leejs&#039;s blog" height="28"></a><p class="is-size-7"><span>&copy; 2026 LEEJS</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="external nofollow noopener noreferrer">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="external nofollow noopener noreferrer" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="external nofollow noopener noreferrer" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="external nofollow noopener noreferrer" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("ko");</script><script>var IcarusThemeSettings = {
+</div></article></div><nav class="pagination" role="navigation" aria-label="pagination"><div class="pagination-previous"><a href="/">이전</a></div><div class="pagination-next"><a href="/page/3/">다음</a></div><ul class="pagination-list is-hidden-mobile"><li><a class="pagination-link" href="/">1</a></li><li><a class="pagination-link is-current" href="/page/2/">2</a></li><li><a class="pagination-link" href="/page/3/">3</a></li><li><span class="pagination-ellipsis">&hellip;</span></li><li><a class="pagination-link" href="/page/8/">8</a></li></ul></nav></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><!--!--><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/img/avatar.png" alt="LEEJS"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">LEEJS</p><p class="is-size-6 is-block">Android Dev.</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>South Korea</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">포스트</p><a href="/archives"><p class="title">37</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">카테고리</p><a href="/categories"><p class="title">7</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">태그</p><a href="/tags"><p class="title">0</p></a></div></div></nav><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="external nofollow noopener noreferrer" title="Github" href="https://github.com/dl137584"><i class="fab fa-github"></i></a></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">카테고리</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/ARTICLE/"><span class="level-start"><span class="level-item">/ARTICLE</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/BOOK/"><span class="level-start"><span class="level-item">/BOOK</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Algorithm/"><span class="level-start"><span class="level-item">Algorithm</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Android/"><span class="level-start"><span class="level-item">Android</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li><li><a class="level is-mobile" href="/categories/Etc/"><span class="level-start"><span class="level-item">Etc</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Kotlin/"><span class="level-start"><span class="level-item">Kotlin</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Translation/"><span class="level-start"><span class="level-item">Translation</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></div></div></div><div class="card widget" data-type="adsense"><div class="card-content"><div class="menu"><h3 class="menu-label">광고</h3><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8868044834754772" data-ad-slot="4130112855" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="leejs&#039;s blog" height="28"></a><p class="is-size-7"><span>&copy; 2026 LEEJS</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="external nofollow noopener noreferrer">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="external nofollow noopener noreferrer" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="external nofollow noopener noreferrer" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="external nofollow noopener noreferrer" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("ko");</script><script>var IcarusThemeSettings = {
             article: {
                 highlight: {
                     clipboard: true,
