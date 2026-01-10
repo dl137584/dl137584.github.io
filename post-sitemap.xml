@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="sitemap.xsl"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    <url>
+        <loc>https://dl137584.github.io/</loc>
+        <changefreq>daily</changefreq>
+        <priority>1</priority>
+    </url>
+
+
+    <url>
+        <loc>https://dl137584.github.io/2024/03/22/030-kotlin-coroutines-deep-dive-02/</loc>
+        <lastmod>2024-03-22T12:26:10.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2023/11/19/028-kotlin-coroutines-deep-dive-01/</loc>
+        <lastmod>2024-03-22T12:25:46.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2023/11/20/029-kotlin-var-val-const-companion-object/</loc>
+        <lastmod>2023-11-19T15:42:37.862Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/09/28/027-androids-the-team-that-built-the-android-operating-system/</loc>
+        <lastmod>2022-10-23T09:35:18.877Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/06/14/025-reading-a-delicious-book/</loc>
+        <lastmod>2022-06-30T13:05:10.399Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/06/14/026-reading-any-awesome-article/</loc>
+        <lastmod>2022-06-28T15:22:46.817Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/02/11/015-viewpager-addonpagechangelistener/</loc>
+        <lastmod>2022-06-14T16:35:19.556Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/02/01/004-the-way-bitmap-gc-in-glide/</loc>
+        <lastmod>2022-05-24T15:15:33.659Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/02/16/017-android11-scoped-storage/</loc>
+        <lastmod>2022-05-02T13:40:19.270Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/04/18/021-kotlin-equality-and-identity/</loc>
+        <lastmod>2022-05-02T13:33:04.834Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/04/30/023-ticker-in-coroutines-library/</loc>
+        <lastmod>2022-05-02T13:26:56.495Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/05/02/024-allow-the-different-scaletype-when-loading-image-in-glide/</loc>
+        <lastmod>2022-05-02T13:25:34.173Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/02/05/008-glide-v4/</loc>
+        <lastmod>2022-05-02T12:59:31.772Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/02/05/010-memory-cache-and-disk-cache/</loc>
+        <lastmod>2022-04-30T10:30:27.960Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/04/20/022-keep-horizontal-scroll-when-scrolling-vertically-other-recyclerview/</loc>
+        <lastmod>2022-04-20T12:37:42.751Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/02/04/006-create-personal-blog-with-githubpages-and-hexo/</loc>
+        <lastmod>2022-02-19T11:48:06.195Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/02/19/019-blog-apply-adsense/</loc>
+        <lastmod>2022-02-19T04:30:40.580Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/02/04/007-blog-apply-seo/</loc>
+        <lastmod>2022-02-19T03:58:26.245Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/02/17/018-android12-summary/</loc>
+        <lastmod>2022-02-17T11:04:12.233Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/02/05/012-greedy-algorithm/</loc>
+        <lastmod>2022-02-16T15:17:00.735Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/02/10/014-parcelable-in-java-and-kotlin/</loc>
+        <lastmod>2022-02-16T15:16:58.585Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/02/14/016-android11-package/</loc>
+        <lastmod>2022-02-16T15:15:58.549Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/02/09/013-type-application-overlay/</loc>
+        <lastmod>2022-02-16T15:15:18.800Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/02/01/003-deprecated-facebook-login-in-android/</loc>
+        <lastmod>2022-02-16T15:12:49.740Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/02/04/005-the-difference-between-concurrency-and-parallelism-in-rust/</loc>
+        <lastmod>2022-02-16T15:12:44.388Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/01/31/002-jcenter-shutdown/</loc>
+        <lastmod>2022-02-16T13:08:24.182Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/02/05/009-the-way-to-create-glideapp/</loc>
+        <lastmod>2022-02-16T09:45:17.862Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/02/05/011-convert-remote-url-to-jpg-file/</loc>
+        <lastmod>2022-02-16T09:45:02.576Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://dl137584.github.io/2022/01/31/hello-world/</loc>
+        <lastmod>2022-02-06T02:05:00.774Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+</urlset>
+<!-- XML Sitemap generated by Hexo SEO Friendly Sitemap Generator -->
