@@ -26,7 +26,77 @@
             }
         </script>
         <!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/rss2.xml" title="leejs's blog" type="application/rss+xml">
-</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="leejs&#039;s blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/archives">Home</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="external nofollow noopener noreferrer" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item search" title="검색" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time datetime="2024-03-22T12:22:31.000Z" title="2024. 3. 22. 오후 9:22:31">2024-03-22</time>&nbsp;게시 됨</span><span class="level-item"><time datetime="2024-03-22T12:26:10.000Z" title="2024. 3. 22. 오후 9:26:10">2024-03-22</time>&nbsp;업데이트 됨</span><span class="level-item"><a class="link-muted" href="/categories/Translation/">Translation</a></span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2024/03/22/030-kotlin-coroutines-deep-dive-02/">[번역: Kotlin Coroutines: Deep Dive] (2) 코틀린 코루틴에서 일시 정지 작업을 하는 방법</a></h1><div class="content"><blockquote>
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="leejs&#039;s blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/archives">Home</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="external nofollow noopener noreferrer" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item search" title="검색" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time datetime="2024-03-24T11:31:05.000Z" title="2024. 3. 24. 오후 8:31:05">2024-03-24</time>&nbsp;게시 됨</span><span class="level-item"><time datetime="2026-01-30T12:02:34.020Z" title="2026. 1. 30. 오후 9:02:34">2026-01-30</time>&nbsp;업데이트 됨</span><span class="level-item"><a class="link-muted" href="/categories/Android/">Android</a></span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2024/03/24/041-notification/">[Android/푸시] 알림 Notification</a></h1><div class="content"><h3 id="권한-확인-동작"><a href="#권한-확인-동작" class="headerlink" title="권한 확인 동작"></a><strong>권한 확인 동작</strong></h3><ul>
+<li><strong>API 32 이하</strong> 앱의 경우, 시스템이 자동으로 퍼미션 팝업을 띄웠을 때, 사용자가 Don’t allow 버튼을 한번 누르면, 앱이 재시작해도 팝업이 발생하지 않는다.</li>
+<li><strong>API 33 이상</strong> 앱의 경우, 앱이 퍼미션 팝업을 띄웠을 때, 사용자가 Don’t allow 버튼을 <strong>두 번</strong> 누르기 전까지 퍼미션 팝업을 계속 띄울 수 있다.</li>
+<li>사용자가 Don’t allow 버튼을 눌러서 더 이상 팝업을 띄울 수 없다면 사용자가 직접 앱 설정에 들어가서 권한을 허가해줘야한다.</li>
+</ul>
+<h3 id="Android-13에서-변경된-사항"><a href="#Android-13에서-변경된-사항" class="headerlink" title="Android 13에서 변경된 사항"></a><strong>Android 13에서 변경된 사항</strong></h3><ul>
+<li>POST_NOTIFICATIONS (Notification Permission) 은 Target SDK API 33 이상부터 추가 가능</li>
+<li>Target SDK API 32 이하의 앱이 Android 13 디바이스에 설치되면 Notification Channel을 등록할 때 <strong>자동으로</strong> Notification 권한 요청 팝업이 나옴</li>
+<li>Target SDK API 33 이상의 앱이 Android 13 디바이스에 설치되면 Notification 권한요청을 <strong>개발자가 원하는 타이밍에 노출 가능</strong></li>
+<li>Target SDK API 33 이상의 앱이 Android 12 이하 디바이스에 설치되면 기존과 동일하게 Notification 권한 요청 없이 사용 가능</li>
+<li>Target SDK API 32 앱을 33으로 업데이트 시 기존 알림 권한 동의 상태라면 업데이트 이후 기본으로 허용이지만 예외 있음<ul>
+<li><strong>기기에 따라</strong> 자동으로 허용되지 않고 다시 한 번 권한을 얻어야하는 경우가 있음</li>
+<li>그렇기 때문에 Notification 권한이 허가되어 있는지 한 번 확인하는 작업을 넣기를 권장함</li>
+</ul>
+</li>
+</ul>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8868044834754772" crossorigin="anonymous"></script>
+<p><ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8868044834754772" data-ad-slot="1292114373"></ins></p>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+
+
+
+
+
+<h3 id="특성"><a href="#특성" class="headerlink" title="특성"></a><strong>특성</strong></h3><ul>
+<li>삼성 폰에서만 노티 아이콘에 색제한이 없다. 구글에서 권장하는 아이콘 색상배열은 투명배경에 흰색을 사용한 아이콘이다.<br>배경색이 있는 런처 아이콘을 사용한 경우 픽셀 단말에서 아이콘이 깨진다.</li>
+</ul>
+<ul>
+<li><p>채널 중요도 수준</p>
+<p>  <img src="/2024/03/24/041-notification/041-06.png" alt="출처: Android 공식문서"></p>
+<blockquote>
+<p>⚠️ setTicker넣었더니 Android API 27에서 테스트하길, 아이콘도 제대로 안나오고 priority high로 설정했는데 헤드업이 안뜸.</p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li><p>옵션</p>
+<p>  <img src="/2024/03/24/041-notification/041-08.png"></p>
+<ul>
+<li>출처: <a target="_blank" rel="external nofollow noopener noreferrer" href="https://hyeonlog-developer.tistory.com/120">https://hyeonlog-developer.tistory.com/120</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>가시성  잠금화면상태(system ui가 신뢰할 수 없는)에서 알림의 존재와 내용을 표시하는 방법, 가시성을 설정 (setVisibility()를 이용해 notificaiton에서 설정)<ul>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://developer.android.com/reference/androidx/core/app/NotificationCompat?hl=ko#VISIBILITY_PUBLIC()"><code>VISIBILITY_PUBLIC</code></a>: 알림의 전체 콘텐츠가 잠금 화면에 표시된다.</li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://developer.android.com/reference/androidx/core/app/NotificationCompat?hl=ko#VISIBILITY_SECRET()"><code>VISIBILITY_SECRET</code></a>: 알림의 어느 부분도 잠금 화면에 표시되지 않는다.</li>
+<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://developer.android.com/reference/androidx/core/app/NotificationCompat?hl=ko#VISIBILITY_PRIVATE()"><code>VISIBILITY_PRIVATE</code></a>: 알림 아이콘과 콘텐츠 제목과 같은 기본 정보만 잠금 화면에 표시된다. 알림의 전체 콘텐츠가 표시되지 않는다.</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>[<a target="_blank" rel="external nofollow noopener noreferrer" href="https://support.google.com/android/answer/9079661?hl=ko">Google</a>] 푸시 펼치기 기능은 OS가 아닌 단말에 따라 존재 유무가 달라진다.</li>
+</ul>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8868044834754772" crossorigin="anonymous"></script>
+<p><ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8868044834754772" data-ad-slot="1292114373"></ins></p>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+
+
+
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time datetime="2024-03-22T12:22:31.000Z" title="2024. 3. 22. 오후 9:22:31">2024-03-22</time>&nbsp;게시 됨</span><span class="level-item"><time datetime="2024-03-22T12:26:10.000Z" title="2024. 3. 22. 오후 9:26:10">2024-03-22</time>&nbsp;업데이트 됨</span><span class="level-item"><a class="link-muted" href="/categories/Translation/">Translation</a></span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2024/03/22/030-kotlin-coroutines-deep-dive-02/">[번역: Kotlin Coroutines: Deep Dive] (2) 코틀린 코루틴에서 일시 정지 작업을 하는 방법</a></h1><div class="content"><blockquote>
 <p>이 포스팅은 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://kt.academy/book/coroutines">Kotlin Coroutines: Deep Dive</a>의 글을 번역한 것입니다. 오역, 많은 의역, 생략이 있으니 감안하여 읽어주십시오.</p>
 </blockquote>
 <p>하나의 코루틴을 일시정지하는 것은 중간에 멈추는 것을 의미한다. 이건 세이브한 게임을 멈추고 당신이 다른 일에 집중할 수 있는 상태와 유사하다. 그리고 후에 언제든 세이브포인트에서 게임을 다시 시작할 수 있다. 코루틴은 일시정지하면 Continuation을 반환한다. 이를 사용하여 멈춘 지점에서 다시 시작할 수 있다.</p>
@@ -101,6 +171,35 @@
 
 
 
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8868044834754772" crossorigin="anonymous"></script>
+<p><ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8868044834754772" data-ad-slot="1292114373"></ins></p>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+
+
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time datetime="2024-03-14T12:03:10.000Z" title="2024. 3. 14. 오후 9:03:10">2024-03-14</time>&nbsp;게시 됨</span><span class="level-item"><time datetime="2026-01-30T12:07:57.875Z" title="2026. 1. 30. 오후 9:07:57">2026-01-30</time>&nbsp;업데이트 됨</span><span class="level-item"><a class="link-muted" href="/categories/Android/">Android</a></span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2024/03/14/042-fcm-token-policy/">[Android/FCM] 토큰 정책</a></h1><div class="content"><h3 id="등록-토큰-변경-조건"><a href="#등록-토큰-변경-조건" class="headerlink" title="등록 토큰 변경 조건"></a><strong>등록 토큰 변경 조건</strong></h3><pre><code>- 새 기기에서 앱 복원
+- 사용자가 앱 제거/재설치
+- 사용자가 앱 데이터 소거
+- FCM에서 기존 토큰이 만료된 후 앱이 다시 활성화(active)
+</code></pre>
+<h3 id="비활성-토큰"><a href="#비활성-토큰" class="headerlink" title="비활성 토큰"></a><strong>비활성 토큰</strong></h3><p>FCM에 1개월(30일, const EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 30;) 넘게 연결되지 않은 비활성(inactive) 기기와 연결된 토큰은 비활성(stale, 탁한) 토큰이다.</p>
+<blockquote>
+<p>비활성 등록 토큰은 FCM에 1개월 넘게 연결되지 않은 비활성 기기와 연결된 토큰입니다. 시간이 지날수록 기기가 FCM에 다시 연결될 가능성은 점점 줄어듭니다. 이러한 비활성 토큰의메시지 전송 및 주제 팬아웃은 전송되지 않을 가능성이 높습니다(are unlikely to ever be delivered.).</p>
+</blockquote>
+<p>문서에 이렇게 나와 있는데,</p>
+<ul>
+<li>“FCM에 1개월 넘게 연결되지 않은”은 ‘메세지가 마지막으로 정상전송된 이후로 1개월’을 의미하는 걸로 생각됨.</li>
+<li>“전송되지 않을 가능성이 높다”라는 의미는 사용자가 해당 토큰과 연결된 기기(앱)를 사용하지 않아서 수신이 제대로 되지 않을 수 있음을 의미하며, (만료되었을 때처럼) FCM이 메세지전송을 막아서는 아닌 것으로 보임.</li>
+</ul>
+<p>단, 비활성 토큰이 270일 동안 활동이 없으면 FCM에서 만료된(expired) 토큰으로 간주한다. 이때 만료된 토큰으로는 FCM에서 유효하지 않은 것으로 표시하고 이때, 메세지 전송을거부한다. (FCM은 기기가 다시 연결되고 앱이 열리는 경우에 앱 인스턴스의 새 토큰을 발급한다.)</p>
+<p>따라서 토큰의 유효기간은 마지막 정상전송 후로부터 최대 300일(30일 후 비활성 + 만료 유예기간 270일)로 예상된다.</p>
+<blockquote>
+<p>자세한 내용은 [<a target="_blank" rel="external nofollow noopener noreferrer" href="https://firebase.google.com/docs/cloud-messaging/manage-tokens?hl=ko&authuser=0&_gl=1*gv51vk*_up*MQ..*_ga*MTg5ODUzMTQ5MS4xNzMwODU1NTU0*_ga_CW55HF8NVT*MTczMDg1NTU1NC4xLjAuMTczMDg1NTU1NC4wLjAuMA..">Firebase 문서 - FCM 등록 토큰 관리를 위한 권장사항</a>] 부문을 통해 확인할 수 있다.</p>
+</blockquote>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8868044834754772" crossorigin="anonymous"></script>
 <p><ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8868044834754772" data-ad-slot="1292114373"></ins></p>
 <script>
@@ -262,134 +361,7 @@
 
 
 
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time datetime="2022-09-27T16:37:54.000Z" title="2022. 9. 28. 오전 1:37:54">2022-09-28</time>&nbsp;게시 됨</span><span class="level-item"><time datetime="2022-10-23T09:35:18.877Z" title="2022. 10. 23. 오후 6:35:18">2022-10-23</time>&nbsp;업데이트 됨</span><span class="level-item"><a class="link-muted" href="/categories/BOOK/">/BOOK</a></span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2022/09/28/027-androids-the-team-that-built-the-android-operating-system/">[후기] 안드로이드 뜻밖의 역사</a></h1><div class="content"><blockquote>
-<p>이 책은 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://read.amazon.com/kp/kshare?asin=B09C6RYHQ4&id=mrj4eo62hvfclbvra5qanqtueq&reshareId=V2N2XP2AM1ZVJH51S5SG&reshareChannel=system">Androids: The Team that Built the Android Operating System</a> 전문을 번역한 책이며, 영문으로는 해당 링크에서 무료로 볼 수 있다.</p>
-</blockquote>
-<ul>
-<li>Read started from 2022.08.26</li>
-<li>출간일: 2022.08.19</li>
-<li>저자: 쳇 하스</li>
-<li>출판사: 인사이트</li>
-</ul>
-<p>-</p>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8868044834754772" crossorigin="anonymous"></script>
-<p><ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8868044834754772" data-ad-slot="1292114373"></ins></p>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-
-<blockquote>
-<p>나는 이 책을 기술적인 세부 내용을 아는 소프트웨어/하드웨어 엔지니어 말고도 누구나 읽기를 바란다._1부 中</p>
-</blockquote>
-<p>책을 읽기 전 팔락팔락 넘기다가 SCSI 단어가 나오길래 비관련 종사자는 읽기 힘들거라고 생각했는데, 책을 처음부터 읽는다면 미리 설명한 사람들이 나와서 알만한 이야기를 한다. 이 책에서 나는,</p>
-<ol>
-<li>안드로이드 1.0을 릴리즈하기 위한 열정</li>
-<li>안드로이드 내부 기능 각각이 탑재된 배경</li>
-<li>안드로이드 OS가 시장에 나오기까지의 과정</li>
-</ol>
-<p>세 가지를 중점적으로 봤기 때문에 이런 부분을 기대한다면 읽기 불편할 것 같진 않다고 생각했다.</p>
-<h3 id="첫-번째-열정"><a href="#첫-번째-열정" class="headerlink" title="첫 번째, 열정."></a><strong>첫 번째, 열정.</strong></h3><p>다 읽고 나면 안드로이드라는 새로운 운영 체제를 위해 함께 토론하고 결정하며 달려온 기분을 맛볼 수 있다.</p>
-<blockquote>
-<p>역사를 공유하고 있다는 확고한 느낌이 있었죠._1장 中</p>
-</blockquote>
-<p>이 책을 읽은 시기가 마침 회사에서 안드로이드 개발자로 일하면서 두 가지를 고민하던 때였다.</p>
-<!-- 내가 여기서 '뭘 하고' 있는 거지? -->
-<p><strong>내가 ‘왜’ 여기 있는 거지?</strong></p>
-<p>물론 안드로이드 개발을 하고 있었으나 나는 내가 좋아해서 고른 이 직무에 관해 의구심이 생겼다.</p>
-<!-- '안드로이드를 계속 하는 게 맞을까?' -->
-<p><strong>‘나는 왜 안드로이드를 좋아했던 거지?’</strong></p>
-<p>지금도 좋아하지 않는 게 아니었다. 그런데 처음 이끌렸던 이유가 기억나지 않았다. 분명히 있을 거라고 생각했고, 나는 지금까지 인생을 회고하면서 그걸 찾아보고자 했다. 그런데 이 책은 표지처럼 안드로이드의 골대를 세우고, 내부 톱니바퀴를 채우고, 외피를 덮는 공정을 밟는다. 그게 뜻밖에도 나에게 도움을 주었다.</p>
-<p>자세한 건 여기에 적지 않겠으나, 첫 직장에서 C#을 했었고, 거기서 마음에 들었던 부분이 안드로이드에 있었다는 걸 이 책에서 안드로이드의 내부를 하나하나 짚어주는 걸 따라가면서 발견해냈던 것이다.</p>
-<p>그런 점에서 나는 이 책을 읽기 잘했다는 마음이 들었고, 끝까지 재미있게 읽을 수 있었다.</p>
-<h3 id="두-번째-배경"><a href="#두-번째-배경" class="headerlink" title="두 번째, 배경."></a><strong>두 번째, 배경.</strong></h3><p>안드로이드의 각 내부기능, 예를 들면 알람, 지도, 웹뷰는 물론이고 선택된 언어, 저장장치 구성, 이미지 렌더링에 관하여 코드로써 다뤄본 적이 있다면 더욱 빠져들 수 있을 것이다.</p>
-<p>참고로, 현재 Android Developer의 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developer.android.com/guide/platform?hl=ko">플랫폼 아키텍처</a>에서는 소프트웨어 스택(흔히 말하길 ‘안드로이드 운영체제 구조’)을 아래와 같이 그림으로 나타내고 있다.</p>
-<p><img src="/2022/09/28/027-androids-the-team-that-built-the-android-operating-system/027-01.png" alt="Android 소프트웨어 스택"></p>
-<p>그러나 이건 런타임이 ART(<a target="_blank" rel="external nofollow noopener noreferrer" href="https://developer.android.com/guide/practices/verifying-apps-art.html?hl=ko">Android 5.0(API 레벨 21) 이상이 실행되는 기기의 기본 런타임</a>)로 바뀐 2022년 버전 구조이고, 이 책에서는 1.0이하를 중점적으로 다루고 있으므로 아래와 같이 런타임에 Dalvik을 사용하는 구조에 가깝다고 볼 수 있겠다.</p>
-<p>현업 종사자라면 두 사진을 비교해보는 것도 소소한 즐거움이 되지 않을까.</p>
-<p><img src="/2022/09/28/027-androids-the-team-that-built-the-android-operating-system/027-02.png" alt="Android 운영체제 구조"></p>
-<p>그림 출처: <a target="_blank" rel="external nofollow noopener noreferrer" href="https://sites.google.com/site/io/anatomy--physiology-of-an-android">Anatomy Physiology of an Android (Google IO 2008)</a></p>
-<blockquote>
-<p>“누군가 그걸 좋아했기 때문이 아니라 플랫폼이 성공하려면 타당했기 때문이고 팀이 거기에 적응한 거예요.”_8장 中</p>
-</blockquote>
-<p>의사결정 과정에 대해 다이앤이 한 말이다. 기능의 세부사항들은 모두 당시에 타당한 기준으로 선별되었고, 구성하였음을 알 수 있다.</p>
-<p>책에서 재미있게 읽고 기억에 남았던 게 몇 가지 있다.</p>
-<ul>
-<li>GPU없이 렌더링되던 시절의 이야기</li>
-<li>초기 운영체제 모델로 오른 액티비티와 main() 함수</li>
-<li>ART 런타임으로 바뀌기 이전의 초기 런타임 형태</li>
-<li>View의 스레드 측면 작동 방식</li>
-</ul>
-<p>포트 5228에 대한 내용도 잠깐 있었고 내용이 정말 알찼다. 안드로이드의 기능이나 구조를 한 번씩 언급해준다. 개인적으로 웹뷰에 대한 이야기가 길게 이어져서 좋았고, 업데이트 중 메모리 확보 및 보안을 신경쓴 부분도 자세하게 나와서 읽는 재미가 있었다.</p>
-<p>1.0 릴리즈까지 타이트한 일정이었으나 결국 제품을 완성하여 최고의 타이밍에 출시한 안드로이드. &lt;세상을 빛낸 Geek&gt;에서는 맥의 화려함을 강조한 모양이나, 나는 &lt;안드로이드 뜻밖의 역사&gt;가 좋다.</p>
-<p>안드로이드가 오픈 소스인 점, 앱스토어에서 사용자를 가리지 않은 점. 모두에게 열려있다는 인상, 그리고 개발자 친화적이라는 생각도 들었다.</p>
-<p>나는 Android가 좋다:)</p>
-<p>다음은 1부에 나오는 에번 밀러의 말을 옮긴 것이다. 이를 마지막으로 후기를 마무리하고자 한다.</p>
-<blockquote>
-<p>“처음부터 필연 같은 건 없었어요.<br>안드로이드가 성공하지 못할 이유는 많았죠.<br>똑같은 일을 다시 이뤄 내고 싶다고 해도 할 수 없을 거예요.<br>뭔가 마법이 벌어진 거죠.”</p>
-</blockquote>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8868044834754772" crossorigin="anonymous"></script>
-<p><ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-8868044834754772" data-ad-slot="1292114373"></ins></p>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-<p>-</p>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time datetime="2022-06-14T14:34:05.000Z" title="2022. 6. 14. 오후 11:34:05">2022-06-14</time>&nbsp;게시 됨</span><span class="level-item"><time datetime="2022-06-28T15:22:46.817Z" title="2022. 6. 29. 오전 12:22:46">2022-06-29</time>&nbsp;업데이트 됨</span><span class="level-item"><a class="link-muted" href="/categories/ARTICLE/">/ARTICLE</a></span></div></div><h1 class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2022/06/14/026-reading-any-awesome-article/">Android</a></h1><div class="content"><h3 id="Microsoft-Java-11-이상으로-이동하는-이유"><a href="#Microsoft-Java-11-이상으로-이동하는-이유" class="headerlink" title="[Microsoft] Java 11 이상으로 이동하는 이유"></a><strong><a target="_blank" rel="external nofollow noopener noreferrer" href="https://docs.microsoft.com/ko-kr/java/openjdk/reasons-to-move-to-java-11?toc=/azure/developer/java/fundamentals/toc.json&bc=/azure/developer/breadcrumb/toc.json">[Microsoft] Java 11 이상으로 이동하는 이유</a></strong></h3><ul>
-<li>2022.05.20 작성됨</li>
-</ul>
-<p>Java 8에 대한 업데이트가 유료로 전환되어 Microsoft에서는 빠른 시일 내에 11 버전으로 옮기길 권장하고 있다.</p>
-<p>Java 11로 업그레이드할 경우 장점으로는</p>
-<ul>
-<li>모듈: 메모리를 더 적게 쓰고, 클래스 로딩이 빨라진다.</li>
-<li>GC: Java 8에서는 여러 스레드를 사용하는 병렬 GC를 사용해 속도를 높인 반면, Java 11에서는 G1 가비지 수집기를 사용해 처리량을 높였다.</li>
-</ul>
-<h3 id="Android-Studio-Arctic-Fox-2020-3-1"><a href="#Android-Studio-Arctic-Fox-2020-3-1" class="headerlink" title="Android Studio Arctic Fox(2020.3.1)"></a><strong>Android Studio Arctic Fox(2020.3.1)</strong></h3><ul>
-<li>2021.07.28 <a target="_blank" rel="external nofollow noopener noreferrer" href="https://developer.android.com/studio/archive">Download</a></li>
-<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://cliearl.github.io/posts/android/android-gradle-java-11/">Android Studio Arctic Fox와 JDK 11의 도입</a></li>
-</ul>
-<blockquote>
-<p>An exception occurred applying plugin request [id: ‘com.android.library’]<br>Failed to apply plugin ‘com.android.internal.library’.<br>   Android Gradle plugin requires Java 11 to run. You are currently using Java 1.8.</p>
-</blockquote>
-<p>Arctic Fox는 JDK 11 기반으로 되어있어 Gradle도 7.0.x 버전으로 올라갔다. (기존 Android Studio 4.x는 JDK 1.8 기반) 이에 따라 에러 메세지에서는 ‘com.android.library’ 플러그인을 사용하는 데 문제가 있다고 명시해주고 있다.</p>
-<h3 id="2022-2023년-Kotlin-팀의-계획-주요-프로젝트-및-생산성-기능"><a href="#2022-2023년-Kotlin-팀의-계획-주요-프로젝트-및-생산성-기능" class="headerlink" title="2022~2023년 Kotlin 팀의 계획: 주요 프로젝트 및 생산성 기능"></a><strong>2022~2023년 Kotlin 팀의 계획: 주요 프로젝트 및 생산성 기능</strong></h3><ul>
-<li>2022.06.13</li>
-<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://blog.jetbrains.com/ko/kotlin/2022/06/what-to-expect-from-the-kotlin-team-in-202223/">JetBrains</a></li>
-</ul>
-<blockquote>
-<p>2022~2023년 핵심 프로젝트는 다음과 같습니다.</p>
-<ul>
-<li>Kotlin 릴리스의 품질과 안정성 개선</li>
-<li><strong>K2 컴파일러의 베타 버전</strong> 출시</li>
-<li>Kotlin Multiplatform Mobile의 안정화 버전 출시</li>
-<li>K2 지원 플러그인을 포함한 Kotlin IntelliJ IDEA 플러그인의 알파 버전 출시</li>
-<li>Kotlin/JS IR 백엔드의 안정화 버전 출시</li>
-</ul>
-</blockquote>
-<h3 id="2022-구글-I-O"><a href="#2022-구글-I-O" class="headerlink" title="2022 구글 I/O"></a><strong>2022 구글 I/O</strong></h3><ul>
-<li>2022.05.12</li>
-<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://byline.network/2022/05/12-167/">바이라인 네트워크 - 2022 구글 I/O 키노트 총정리, 안드로이드 13, 픽셀 6a, 픽셀 워치, 픽셀 버즈 프로, 보안, 검색</a></li>
-</ul>
-<h3 id="안드로이드-로드맵-2022"><a href="#안드로이드-로드맵-2022" class="headerlink" title="안드로이드 로드맵 2022"></a><strong>안드로이드 로드맵 2022</strong></h3><ul>
-<li>2022.01.21</li>
-<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://github.com/skydoves/android-developer-roadmap">Android Developer Roadmap 2022</a></li>
-<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://getstream.io/blog/android-developer-roadmap/">The 2022 Android Developer Roadmap</a></li>
-</ul>
-<h3 id="안드로이드-버전-점유율-statistics"><a href="#안드로이드-버전-점유율-statistics" class="headerlink" title="안드로이드 버전 점유율(statistics)"></a><strong>안드로이드 버전 점유율(statistics)</strong></h3><ul>
-<li>2021.11.21</li>
-<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://9to5google.com/2021/11/22/android-2021-distribution-numbers/">android-2021-distribution-numbers</a></li>
-<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://developer.android.com/about/dashboards">[Android Developer] 배포 대시보드</a></li>
-</ul>
-<p><img src="/2022/06/14/026-reading-any-awesome-article/026-01.PNG" alt="Android Studio &gt; Create New Project"></p>
-<h3 id="Airbnb의-Server-Driven-UI-시스템"><a href="#Airbnb의-Server-Driven-UI-시스템" class="headerlink" title="Airbnb의 Server-Driven UI 시스템"></a><strong>Airbnb의 Server-Driven UI 시스템</strong></h3><ul>
-<li>2021.06.30</li>
-<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://medium.com/airbnb-engineering/a-deep-dive-into-airbnbs-server-driven-ui-system-842244c5f5">Airbnb - A Deep Dive into Airbnb’s Server-Driven UI System(en)</a></li>
-<li><a target="_blank" rel="external nofollow noopener noreferrer" href="https://brunch.co.kr/@advisor/37">Airbnb의 Server-Driven UI(2021.07.21)(ko)</a></li>
-</ul>
-<p>Ghost Platform(GP)로 안드로이드의 업데이트가 느리다는 단점을 상쇄하기 위해 UI를 SDUI로 만드는 데에 도움을 주는 플랫폼을 AirBnb에서 만들어 사용하고 있다.</p>
-</div></article></div><nav class="pagination" role="navigation" aria-label="pagination"><div class="pagination-previous"><a href="/page/2/">이전</a></div><div class="pagination-next"><a href="/page/4/">다음</a></div><ul class="pagination-list is-hidden-mobile"><li><a class="pagination-link" href="/">1</a></li><li><a class="pagination-link" href="/page/2/">2</a></li><li><a class="pagination-link is-current" href="/page/3/">3</a></li><li><a class="pagination-link" href="/page/4/">4</a></li><li><span class="pagination-ellipsis">&hellip;</span></li><li><a class="pagination-link" href="/page/8/">8</a></li></ul></nav></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><!--!--><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/img/avatar.png" alt="LEEJS"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">LEEJS</p><p class="is-size-6 is-block">Android Dev.</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>South Korea</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">포스트</p><a href="/archives"><p class="title">39</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">카테고리</p><a href="/categories"><p class="title">7</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">태그</p><a href="/tags"><p class="title">0</p></a></div></div></nav><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="external nofollow noopener noreferrer" title="Github" href="https://github.com/dl137584"><i class="fab fa-github"></i></a></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">카테고리</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/ARTICLE/"><span class="level-start"><span class="level-item">/ARTICLE</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/BOOK/"><span class="level-start"><span class="level-item">/BOOK</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Algorithm/"><span class="level-start"><span class="level-item">Algorithm</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Android/"><span class="level-start"><span class="level-item">Android</span></span><span class="level-end"><span class="level-item tag">25</span></span></a></li><li><a class="level is-mobile" href="/categories/Etc/"><span class="level-start"><span class="level-item">Etc</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Kotlin/"><span class="level-start"><span class="level-item">Kotlin</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Translation/"><span class="level-start"><span class="level-item">Translation</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></div></div></div><div class="card widget" data-type="adsense"><div class="card-content"><div class="menu"><h3 class="menu-label">광고</h3><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8868044834754772" data-ad-slot="4130112855" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="leejs&#039;s blog" height="28"></a><p class="is-size-7"><span>&copy; 2026 LEEJS</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="external nofollow noopener noreferrer">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="external nofollow noopener noreferrer" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="external nofollow noopener noreferrer" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="external nofollow noopener noreferrer" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("ko");</script><script>var IcarusThemeSettings = {
+</div></article></div><nav class="pagination" role="navigation" aria-label="pagination"><div class="pagination-previous"><a href="/page/2/">이전</a></div><div class="pagination-next"><a href="/page/4/">다음</a></div><ul class="pagination-list is-hidden-mobile"><li><a class="pagination-link" href="/">1</a></li><li><a class="pagination-link" href="/page/2/">2</a></li><li><a class="pagination-link is-current" href="/page/3/">3</a></li><li><a class="pagination-link" href="/page/4/">4</a></li><li><span class="pagination-ellipsis">&hellip;</span></li><li><a class="pagination-link" href="/page/9/">9</a></li></ul></nav></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1 is-sticky"><!--!--><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/img/avatar.png" alt="LEEJS"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">LEEJS</p><p class="is-size-6 is-block">Android Dev.</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>South Korea</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">포스트</p><a href="/archives"><p class="title">41</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">카테고리</p><a href="/categories"><p class="title">7</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">태그</p><a href="/tags"><p class="title">0</p></a></div></div></nav><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="external nofollow noopener noreferrer" title="Github" href="https://github.com/dl137584"><i class="fab fa-github"></i></a></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">카테고리</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/ARTICLE/"><span class="level-start"><span class="level-item">/ARTICLE</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/BOOK/"><span class="level-start"><span class="level-item">/BOOK</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Algorithm/"><span class="level-start"><span class="level-item">Algorithm</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Android/"><span class="level-start"><span class="level-item">Android</span></span><span class="level-end"><span class="level-item tag">27</span></span></a></li><li><a class="level is-mobile" href="/categories/Etc/"><span class="level-start"><span class="level-item">Etc</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Kotlin/"><span class="level-start"><span class="level-item">Kotlin</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/Translation/"><span class="level-start"><span class="level-item">Translation</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></div></div></div><div class="card widget" data-type="adsense"><div class="card-content"><div class="menu"><h3 class="menu-label">광고</h3><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8868044834754772" data-ad-slot="4130112855" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="leejs&#039;s blog" height="28"></a><p class="is-size-7"><span>&copy; 2026 LEEJS</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="external nofollow noopener noreferrer">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="external nofollow noopener noreferrer">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="external nofollow noopener noreferrer" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="external nofollow noopener noreferrer" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="external nofollow noopener noreferrer" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("ko");</script><script>var IcarusThemeSettings = {
             article: {
                 highlight: {
                     clipboard: true,
